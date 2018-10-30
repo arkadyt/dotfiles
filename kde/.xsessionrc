@@ -1,0 +1,5 @@
+#!/bin/sh
+xrandr --newmode "3840x1080_40.00"  221.00  3840 4024 4416 4992  1080 1083 1093 1108 -hsync +vsync
+xrandr --addmode HDMI-1 "3840x1080_40.00"
+xrandr --output HDMI-1 --mode "3840x1080_40.00"
+
