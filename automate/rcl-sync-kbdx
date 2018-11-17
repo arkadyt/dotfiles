@@ -1,0 +1,5 @@
+#!/bin/bash
+
+rclone copy ~/Documents/Passwords.kdbx /media/arkadyt/arcan770077f/Cloud/MISC/Passwords/ -v
+rclone copy ~/Documents/Passwords.kdbx gdr:HDrive/MISC/Passwords/ -v
+rclone copy ~/Documents/Passwords.kdbx gdr_lena: -v
