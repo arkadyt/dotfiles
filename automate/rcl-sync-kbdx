@@ -1,5 +1,12 @@
 #!/bin/bash
 
-rclone copy ~/Documents/Passwords.kdbx /media/arkadyt/arcan770077f/Cloud/MISC/Passwords/ -v
-rclone copy ~/Documents/Passwords.kdbx gdr:HDrive/MISC/Passwords/ -v
-rclone copy ~/Documents/Passwords.kdbx gdr_lena: -v
+DATE=`date +%d-%m-%Y_%H.%M.%S`
+
+echo copying to hard drive...
+rclone copyto ~/Documents/Passwords.kdbx /media/arkadyt/arcan770077f/Cloud/MISC/Passwords/Passwords_$DATE.kdbx -v
+
+echo copying to gdr...
+rclone copyto ~/Documents/Passwords.kdbx gdr:HDrive/MISC/Passwords/Passwords_$DATE.kbdx -v
+
+echo copying to gdr_lena...
+rclone copyto ~/Documents/Passwords.kdbx gdr_lena:Passwords_$DATE.kdbx -v
