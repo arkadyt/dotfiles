@@ -1,0 +1,11 @@
+#!/bin/bash
+
+rel_path="/MISC/Backups/GitHub"
+hdrive_path="/media/arkadyt/arcan770077f/Cloud/$rel_path"
+
+cd $hdrive_path
+
+# ! -name .      : excludes . 
+find . -maxdepth 1 -type d \( ! -name . \) -exec bash -c "cd '{}' && git pull" \;
+
+rclone sync $hdrive_path gdr:$path -v --size-only
