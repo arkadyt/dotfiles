@@ -1,11 +1,17 @@
-## nginx.conf
- * /etc/nginx/
- * `nginx` reverse proxy config
- * enables SSL
+## nginx/sites-available/api.arkadyt.com
+ * /etc
+ * `nginx` reverse proxy config for virtual host api.arkadyt.com
+ * enables HTTPS
  * redirects incoming requests to different `docker` containers running in the system
 
-## main.cf
- * /etc/postfix/
+## nginx/nginx.conf
+ * /etc
+ * global nginx config
+ * static content delivery is not optimized (serving only application/json)
+ * gzips every resource to save on GCP egress traffic quota
+
+## postfix/main.cf
+ * /etc
  * `postfix` mail server config
  * enables outgoing mail service through sendgrid smtp relay servers on google compute engine vm instances (GCP blocks smtp ports 25, 465 and 587)
  * used with mailx from `mailutils`
