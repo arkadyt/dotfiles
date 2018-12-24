@@ -15,8 +15,9 @@
  * monthly ssl certificates renewal through a cron job
  * uses `certbot` certificate manager
  * reports operation status through email
+ * requires cron.reports folder in home/user directory
 
-### spinup/
+## spinup/
  * spin-up scripts for docker containers
 
 ## more

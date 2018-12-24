@@ -4,7 +4,8 @@ export TZ='America/Los_Angeles'
 
 DATE=$(date +'%B %d, %Y')
 DATE_PRECISE=$(date +'%B %d, %Y | %H:%M:%S (%z)')
-ATTACHMENT="/home/arkadyt/cron.reports/cert_renewal_report_$(date +'%Y%m%d_%H%M%S').txt"
+ATTACHMENT="$HOME/cron.reports/cert_renewal_report_$(date +'%Y%m%d_%H%M%S').txt"
+EMAIL='some@email.com'
 
 HEADER="Monthly cert update report ($DATE)"
 OUTPUT=$(sudo certbot renew -n \
@@ -17,4 +18,4 @@ WHERE: $(hostname -f)
 REPORT: $OUTPUT"
 
 echo "$BODY" >> $ATTACHMENT
-echo "" | mail -s "$HEADER" -A $ATTACHMENT arcan770077f@gmail.com
+echo "" | mail -s "$HEADER" -A $ATTACHMENT $EMAIL
