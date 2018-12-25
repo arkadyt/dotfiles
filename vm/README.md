@@ -21,7 +21,7 @@
  * enables outgoing mail service through sendgrid smtp relay servers on google compute engine vm instances (GCP blocks smtp ports 25, 465 and 587)
  * used with mailx from `mailutils`
 
-## certs.renewal.sh
+## certs-renewal
  * /etc/cron.monthly/
  * monthly ssl certificates renewal through a cron job
  * uses `certbot` certificate manager
