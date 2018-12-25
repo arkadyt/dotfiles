@@ -1,14 +1,19 @@
+## nginx/nginx.conf
+ * /etc
+ * global nginx config
+ * static content delivery is not optimized (serving only application/json)
+ * gzips every resource to save on GCP egress traffic quota
+
 ## nginx/sites-available/api.arkadyt.com
  * /etc
  * `nginx` reverse proxy config for virtual host api.arkadyt.com
  * enables HTTPS
  * redirects incoming requests to different `docker` containers running in the system
 
-## nginx/nginx.conf
+## nginx/sites-available/undefined
  * /etc
- * global nginx config
- * static content delivery is not optimized (serving only application/json)
- * gzips every resource to save on GCP egress traffic quota
+ * default virtual host rejecting incoming requests with undefined server names
+ * uses self signed certificate for https requests handling (got a real wildcard one?)
 
 ## postfix/main.cf
  * /etc
@@ -31,3 +36,5 @@
  * https://letsencrypt.org/ 
  * https://certbot.eff.org/ 
  * https://cloud.google.com/compute/docs/tutorials/sending-mail/using-sendgrid
+ * https://stackoverflow.com/questions/19215641/remove-default-nginx-welcome-page-when-access-directly-from-ip-address
+ * https://serverfault.com/questions/578648/properly-setting-up-a-default-nginx-server-for-https
