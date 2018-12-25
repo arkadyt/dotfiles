@@ -8,8 +8,8 @@ server {
     include               /etc/letsencrypt/options-ssl-nginx.conf; 
     ssl_dhparam           /etc/letsencrypt/ssl-dhparams.pem; 
 
-    location /wnetb {
-        proxy_pass http://0.0.0.0:5001;
+    location /wnetb/ {
+        proxy_pass http://0.0.0.0:5001/;
     }
 
     location = / {
