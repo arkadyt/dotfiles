@@ -11,6 +11,10 @@ server {
     location /wnetb {
         proxy_pass http://0.0.0.0:5001;
     }
+
+    location = / {
+        return 404;
+    }
 }
 
 server {
