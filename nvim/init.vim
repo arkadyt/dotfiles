@@ -8,21 +8,24 @@ endif
 
 " ------ Set Mappings ------ "
 
-let mapleader = "\<Space>"
+let mapleader = ","
 
-tnoremap <Esc> <C-\><C-n>			        " Make it easy to leave embedded terminal
+tnoremap <Esc> <C-\><C-n>			        " Easily leave embedded terminal
 nnoremap <Leader>d :ALEFix<CR>			        " Run ESLint fixer
 nnoremap <Leader>c :tabe ~/.config/nvim/init.vim<CR>    " Edit nvimrc
 nnoremap <Leader>n :NERDTreeToggle<CR>                  " Toggle nerd tree
 
-nnoremap <Leader>h <C-W>h<CR>                           " Move one window left
-nnoremap <Leader>l <C-W>l<CR>                           " Move one window right
-nnoremap <Leader>j <C-W>j<CR>                           " Move one window down
-nnoremap <Leader>k <C-W>k<CR>                           " Move one window up
-nnoremap <Leader>q <C-W>q<CR>                           " Close window
+nnoremap <Leader>h :wincmd h<CR>                        " Move one window left
+nnoremap <Leader>l :wincmd l<CR>                        " Move one window right
+nnoremap <Leader>j :wincmd j<CR>                        " Move one window down
+nnoremap <Leader>k :wincmd k<CR>                        " Move one window up
+nnoremap <Leader>, :wincmd q<CR>                        " Close window
+nnoremap <Leader>w :wincmd w<CR>                        " Next window
+nnoremap <Leader>x :x<CR>                               " Save & Exit
 
 
-" ------ Install Plugins ------ "
+
+" ------ Install Plugins ----- "
 
 call plug#begin('~/.local/share/nvim/plugged')
 
@@ -48,6 +51,8 @@ Plug 'Xuyuanp/nerdtree-git-plugin'              " Show git status in the NERDTre
 Plug 'airblade/vim-gitgutter'                   " Show git diff in files
 Plug 'pangloss/vim-javascript'                  " Vastly improved JS highlighting and identation
 Plug 'mxw/vim-jsx'                              " JSX highlighting, depends on pangloss/vim-javascript
+Plug 'jiangmiao/auto-pairs'                     " Much better brackets handling
+Plug 'scrooloose/nerdcommenter'                 " Easy code commenting
 
 call plug#end()
 
@@ -58,17 +63,6 @@ call plug#end()
 if (has("termguicolors"))                       " Enable true colors
   set termguicolors
 endif
-
-
-
-"""""""""""""""""""""""""""""""
-" Look & Feel
-"
-"""""""""""""""""""""""""""""""
-let g:gruvbox_contrast_dark='soft'              " Set gruvbox UI theme contrast
-let g:airline_theme='gruvbox'                   " Set airline theme
-
-let g:deoplete#enable_at_startup = 1		" Enable Deoplete autocompletion framework
 
 
 
@@ -91,16 +85,40 @@ let g:javascript_plugin_jsdoc = 1               " Enable JSDoc syntax highlighti
 
 
 
+"""""""""""""""""""""""""""""""
+" airblade/vim-gitgutter
+"
+"""""""""""""""""""""""""""""""
+let g:gitgutter_map_keys = 0                    " Do not set up mappings 
+
+
+
+"""""""""""""""""""""""""""""""
+" Look & Feel
+"
+"""""""""""""""""""""""""""""""
+let g:airline_theme='onedark'                   " Set airline theme [, gruvbox]
+let g:deoplete#enable_at_startup = 1		" Enable Deoplete autocompletion framework
 
 syntax on                                       " Enable syntax highlighting
-colorscheme gruvbox                             " Set colorscheme
+colorscheme onedark                             " Set colorscheme
 
-set background=dark                             " Set dark scheme, gruvbox setting
+
+
+"""""""""""""""""""""""""""""""
+" Other settings
+"
+"""""""""""""""""""""""""""""""
 set number relativenumber       		" Enable line numbers
 set expandtab                                   " Expand tab to spaces
 set shiftwidth=2                                " Set 2 space chars per tab
 set noshowmode                                  " Disable -- INSERT -- line
 set updatetime=100                              " Vim's update time, for better vim-gitgutter support
+set splitright                                  " Open vertical split right of current window
+
+set foldmethod=indent                           " Fold based on indent
+set foldnestmax=10                              " Deepest fold is 10 levels
+set nofoldenable                                " Do not fold by default
 
                                                 " Always show SignColumn for
                                                 " regular files 
