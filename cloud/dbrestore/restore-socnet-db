@@ -1,11 +1,13 @@
 #!/bin/bash
 
 # wipeout
+echo ::: purging socnet database... :::
 mongo \
   --eval "db.getCollectionNames().forEach(function(n){db[n].remove({})});" \
   localhost:27017/socnet
 
 # restore
+echo ::: restoring socnet database from backup... :::
 mongorestore \
   -d socnet \
-  ~/cloud-scripts/dbrestore/socnet
+  /home/arkadyt/cloud-scripts/dbrestore/socnet
