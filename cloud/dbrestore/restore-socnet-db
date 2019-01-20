@@ -10,4 +10,4 @@ mongo \
 echo ::: restoring socnet database from backup... :::
 mongorestore \
   -d socnet \
-  /home/arkadyt/cloud-scripts/dbrestore/socnet
+  /home/arkadyt/code/dotfiles/cloud/dbrestore/socnet

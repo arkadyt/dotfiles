@@ -1,0 +1,23 @@
+# Edit this file to introduce tasks to be run by cron.
+#
+# Notice that tasks will be started based on the cron's system
+# daemon's notion of time and timezones.
+#
+# Output of the crontab jobs (including errors) is sent through
+# email to the user the crontab file belongs to (unless redirected).
+#
+# For more information see the manual pages of crontab(5) and cron(8)
+#
+# Use the hash sign to prefix a comment
+# +---------------- minute (0 - 59)
+# |  +------------- hour (0 - 23)
+# |  |  +---------- day of month (1 - 31)
+# |  |  |  +------- month (1 - 12)
+# |  |  |  |  +---- day of week (0 - 7) (Sunday=0 or 7)
+# |  |  |  |  |
+# *  *  *  *  *  command to be executed
+#-------------------------------------------------------------------------
+  MAILTO=redacted@arkadyt.com
+
+  0  0  *  *  *  /home/arkadyt/code/dotfiles/cloud/dbrestore/restore-socnet-db
+  0  0  *  *  0  /home/arkadyt/code/dotfiles/cloud/renew-ssl-certs

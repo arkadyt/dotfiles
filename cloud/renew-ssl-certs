@@ -10,7 +10,7 @@ DATE=$(date +'%B %d, %Y')
 DATE_PRECISE=$(date +'%B %d, %Y | %H:%M:%S (%z)')
 
 ATTACHMENT="/home/arkadyt/cron.reports/cert_renewal_report_$(date +'%Y%m%d_%H%M%S').txt"
-EMAIL='_'
+EMAIL='redacted@arkadyt.com'
 
 HEADER="Weekly cert update report ($DATE)"
 OUTPUT=$(certbot renew -n \
