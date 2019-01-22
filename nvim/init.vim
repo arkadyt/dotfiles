@@ -11,6 +11,8 @@ endif
 let mapleader = ","
 
 tnoremap <Esc> <C-\><C-n>			        " Easily leave embedded terminal
+nnoremap <End> <S-A>|                                   " Jump to the line end easily with End key
+
 nnoremap <Leader>d :ALEFix<CR>			        " Run ESLint fixer
 nnoremap <Leader>c :tabe ~/.config/nvim/init.vim<CR>    " Edit nvimrc
 nnoremap <Leader>n :NERDTreeToggle<CR>                  " Toggle nerd tree
@@ -19,9 +21,12 @@ nnoremap <Leader>h :wincmd h<CR>                        " Move one window left
 nnoremap <Leader>l :wincmd l<CR>                        " Move one window right
 nnoremap <Leader>j :wincmd j<CR>                        " Move one window down
 nnoremap <Leader>k :wincmd k<CR>                        " Move one window up
-nnoremap <Leader>, :wincmd q<CR>                        " Close window
 nnoremap <Leader>w :wincmd w<CR>                        " Next window
+
+nnoremap <Leader>, :q<CR>                               " Close window
+nnoremap <Leader>W :w<CR>                               " Write file
 nnoremap <Leader>x :x<CR>                               " Save & Exit
+
 
 
 
