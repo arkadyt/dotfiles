@@ -6,6 +6,9 @@ mongo \
   --eval "db.getCollectionNames().forEach(function(n){db[n].remove({})});" \
   localhost:27017/socnet
 
+echo ::: sleeping 60 seconds... :::
+sleep 60
+
 # restore
 echo ::: restoring socnet database from backup... :::
 mongorestore \
