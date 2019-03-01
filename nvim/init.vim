@@ -11,11 +11,13 @@ endif
 let mapleader = ","
 
 tnoremap <Esc> <C-\><C-n>			        " Easily leave embedded terminal
-nnoremap <End> <S-A>|                                   " Jump to the line end easily with End key
+nnoremap <End> <S-A>|                                   " End with Insert mode
 
 nnoremap <Leader>d :ALEFix<CR>			        " Run ESLint fixer
 nnoremap <Leader>c :tabe ~/.config/nvim/init.vim<CR>    " Edit nvimrc
 nnoremap <Leader>n :NERDTreeToggle<CR>                  " Toggle nerd tree
+nnoremap <Leader>F :FZF<CR>|                            " Quickly open fuzzy finder
+nnoremap <Leader>f :FZF|                                " :FZF shortcut
 
 nnoremap <Leader>h :wincmd h<CR>                        " Move one window left
 nnoremap <Leader>l :wincmd l<CR>                        " Move one window right
@@ -58,6 +60,8 @@ Plug 'pangloss/vim-javascript'                  " Vastly improved JS highlightin
 Plug 'mxw/vim-jsx'                              " JSX highlighting, depends on pangloss/vim-javascript
 Plug 'jiangmiao/auto-pairs'                     " Much better brackets handling
 Plug 'scrooloose/nerdcommenter'                 " Easy code commenting
+                                                " Fuzzy finder
+Plug 'junegunn/fzf' 
 
 call plug#end()
 
@@ -79,6 +83,8 @@ endif
 let g:ale_fixers = {                            
   \ 'javascript': ['eslint']
   \ }
+let g:ale_sign_error = '>>'
+let g:ale_sign_warning = '--'
 
 
 
@@ -87,10 +93,11 @@ let g:ale_fixers = {
 "
 """""""""""""""""""""""""""""""
 let g:javascript_plugin_jsdoc = 1               " Enable JSDoc syntax highlighting
+let g:javascript_plugin_flow = 1                " Enable Flow syntax highlighting
 
 
 
-"""""""""""""""""""""""""""""""
+""""""""""""""""""""""""""""""
 " airblade/vim-gitgutter
 "
 """""""""""""""""""""""""""""""
@@ -124,6 +131,8 @@ set splitright                                  " Open vertical split right of c
 set foldmethod=indent                           " Fold based on indent
 set foldnestmax=10                              " Deepest fold is 10 levels
 set nofoldenable                                " Do not fold by default
+set clipboard+=unnamedplus                      " Connect to system's clipboard
+set clipboard+=unnamed                          " Connect to system's clipboard
 
                                                 " Always show SignColumn for
                                                 " regular files 
