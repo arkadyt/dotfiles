@@ -28,9 +28,6 @@
  * reports operation status through email
  * requires cron.reports folder in home/user directory
 
-## spinup/
- * spin-up scripts for docker containers
-
 ## more
  * https://docs.nginx.com/nginx/admin-guide/web-server/reverse-proxy/ 
  * https://letsencrypt.org/ 
