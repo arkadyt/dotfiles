@@ -12,6 +12,10 @@ server {
         proxy_pass http://0.0.0.0:5001/;
     }
 
+    location /turkmen/ {
+        proxy_pass http://localhost:8080/;
+    }
+
     location = / {
         return 404;
     }
