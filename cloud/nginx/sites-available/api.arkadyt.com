@@ -12,6 +12,10 @@ server {
         proxy_pass        http://0.0.0.0:5001/;
     }
 
+    location /hp/ {
+        proxy_pass        http://0.0.0.0:5003/;
+    }
+
     location = / {
         return 404;
     }
