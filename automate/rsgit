@@ -1,7 +1,7 @@
 #!/bin/bash
 
 rel_path="MISC/Backups/GitHub"
-hdrive_path="/media/arkadyt/arcan770077f/Cloud/$rel_path"
+hdrive_path="/home/arkadyt/_Storage/Cloud/$rel_path"
 
 cd $hdrive_path
 
