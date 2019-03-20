@@ -9,7 +9,11 @@ server {
     ssl_dhparam           /etc/letsencrypt/ssl-dhparams.pem; 
 
     location /wnetb/ {
-        proxy_pass http://0.0.0.0:5001/;
+        proxy_pass        http://0.0.0.0:5001/;
+    }
+
+    location /hp/ {
+        proxy_pass        http://0.0.0.0:5003/;
     }
 
     location = / {
