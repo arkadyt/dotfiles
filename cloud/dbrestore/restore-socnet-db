@@ -1,10 +1,9 @@
 #!/bin/bash
 
 
-# setup vars
+# get vars (db.env is not used by db service itself)
 source /home/arkadyt/code/private/env/wwnet/db.env
 export MONGO_INITDB_ROOT_USERNAME MONGO_INITDB_ROOT_PASSWORD
-MONGO_URI="mongodb://$MONGO_INITDB_ROOT_USERNAME:$MONGO_INITDB_ROOT_PASSWORD@localhost:27019/socnet"
 
 
 # restore
@@ -12,5 +11,9 @@ echo ::: restoring socnet.arkadyt.com\'s database from backup... :::
 mongorestore \
   --drop \
   --preserveUUID \
-  --uri=$MONGO_URI \
+  --restoreDbUsersAndRoles \
+  --db=socnet \
+  --host=localhost:27019 \
+  --username=$MONGO_INITDB_ROOT_USERNAME \
+  --password=$MONGO_INITDB_ROOT_PASSWORD \
   /home/arkadyt/code/dotfiles/cloud/dbrestore/socnet
