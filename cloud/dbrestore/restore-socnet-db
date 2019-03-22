@@ -4,7 +4,7 @@
 # setup vars
 source /home/arkadyt/code/private/env/wwnet/db.env
 export MONGO_INITDB_ROOT_USERNAME MONGO_INITDB_ROOT_PASSWORD
-$MONGO_URI="mongodb://$MONGO_INITDB_ROOT_USERNAME:$MONGO_INITDB_ROOT_PASSWORD@localhost:27019/socnet"
+MONGO_URI="mongodb://$MONGO_INITDB_ROOT_USERNAME:$MONGO_INITDB_ROOT_PASSWORD@localhost:27019/socnet"
 
 
 # restore
