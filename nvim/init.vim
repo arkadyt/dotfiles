@@ -13,11 +13,12 @@ let mapleader = ","
 tnoremap <Esc> <C-\><C-n>			        " Easily leave embedded terminal
 nnoremap <End> <S-A>|                                   " End with Insert mode
 
+nnoremap <Leader>F :FZF|                             	" :FZF shortcut
+nnoremap <Leader>f :FZF<CR>|                            " Quickly open fuzzy finder
+
 nnoremap <Leader>d :ALEFix<CR>			        " Run ESLint fixer
 nnoremap <Leader>c :tabe ~/.config/nvim/init.vim<CR>    " Edit nvimrc
 nnoremap <Leader>n :NERDTreeToggle<CR>                  " Toggle nerd tree
-nnoremap <Leader>F :FZF<CR>|                            " Quickly open fuzzy finder
-nnoremap <Leader>f :FZF|                                " :FZF shortcut
 
 nnoremap <Leader>h :wincmd h<CR>                        " Move one window left
 nnoremap <Leader>l :wincmd l<CR>                        " Move one window right
@@ -60,8 +61,9 @@ Plug 'pangloss/vim-javascript'                  " Vastly improved JS highlightin
 Plug 'mxw/vim-jsx'                              " JSX highlighting, depends on pangloss/vim-javascript
 Plug 'jiangmiao/auto-pairs'                     " Much better brackets handling
 Plug 'scrooloose/nerdcommenter'                 " Easy code commenting
-                                                " Fuzzy finder
-Plug 'junegunn/fzf' 
+Plug 'junegunn/fzf'                             " Fuzzy finder
+Plug 'ctrlpvim/ctrlp.vim'                       " Fuzzy file, buffer, mru, tag, etc finder.
+Plug 'tpope/vim-sleuth'                         " Auto-setup of identation rules
 
 call plug#end()
 
@@ -102,6 +104,16 @@ let g:javascript_plugin_flow = 1                " Enable Flow syntax highlightin
 "
 """""""""""""""""""""""""""""""
 let g:gitgutter_map_keys = 0                    " Do not set up mappings 
+
+
+
+""""""""""""""""""""""""""""""
+" ctrlpvim/ctrlp.vim
+"
+"""""""""""""""""""""""""""""""
+if executable('rg')				" Use ripgrep for search in files
+  let g:ctrlp_user_command = 'rg %s --files --hidden --color=never --glob ""'
+endif						" Requires rg binary installed on os
 
 
 
