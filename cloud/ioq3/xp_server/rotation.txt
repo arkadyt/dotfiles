@@ -1,0 +1,24 @@
+$sv_maxclients = 12;
+$timelimit = 20;
+$xp_teamBalance = 0; // do not rebalance teams every match
+$bot_minplayers = 0; // do not start kicking bots if teams are unbalanced
+$g_gametype = 8; // freeze tag
+
+// $sv_privatePassword = "redacted"; // doesn't work
+
+/kick allbots
+/addbot Sorlag 5 red
+/addbot Orbb 5 red
+/addbot Bones 4 red
+/addbot Lucy 4 red
+/addbot TankJr 3 red
+/addbot Sarge 3 red
+
+q3dm12
+q3dm11
+q3dm8
+
+q3strong2018 {
+	$g_gametype = 4; // ctf
+	$capturelimit = 6;
+}

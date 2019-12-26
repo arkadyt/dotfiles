@@ -1,0 +1,65 @@
+$sv_maxclients = 24;
+$timelimit = 20;
+$xp_teamBalance = 0; // do not rebalance teams every match
+$bot_minplayers = 0; // do not kick bots if teams are unbalanced
+
+// $sv_privatePassword = "redacted"; // doesn't work
+
+/kick allbots
+/addbot Sorlag 5 red
+/addbot Orbb 5 red
+/addbot Cadavre 4 red 0 ^6Saparmyrat
+/addbot Bones 4 red
+/addbot Lucy 4 red
+/addbot TankJr 3 red
+/addbot Patriot 2 red
+/addbot Klesk 4 red
+/addbot Sarge 3 red
+/addbot Daemia 5 red
+/addbot Angel 4 red 
+/addbot Bitterman 4 red 0 ^4Putin
+/addbot Biker 4 red 0 ^3Berdymuhamedov
+/addbot Razor 4 red 0 ^5Medvedev
+/addbot Uriel 2 red
+
+rd3ctfq3_v2 {
+	/* CLAN ARENA */
+
+	$g_gametype = 7;
+	$fraglimit = 3;
+}
+
+rd3ctfq3_v2 {
+	/* ONE FLAG CTF */
+
+	$g_gametype = 6;
+	$fraglimit = 2;
+}
+
+rd3ctfq3_v2 {
+	/* FREEZE TAG */
+
+	$g_gametype = 8;
+	$fraglimit = 3;
+}
+
+rd3ctfq3_v2 {
+	/* RETURN THE FLAG */
+
+	$g_gametype = 5;
+	$fraglimit = 2;
+}
+
+rd3ctfq3_v2 {
+	/* CTF */
+
+	$g_gametype = 4;
+	$fraglimit = 2;
+}
+
+rd3ctfq3_v2 {
+	/* TEAM DEATHMATCH */
+
+	$g_gametype = 3;
+	$fraglimit = 35;
+}
