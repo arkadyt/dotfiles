@@ -1,0 +1,99 @@
+#!/bin/bash
+
+HOME=/home/ubuntu
+
+function report {
+    # if final report message
+    if [ $2 ]; then
+        echo "" && echo ""
+        echo $1
+        echo "" && echo ""
+    else
+        echo "" && echo ""
+        echo $1...
+        echo "########################################"
+    fi
+}
+
+function dl_software {
+  report "Downloading software"
+
+  apt-get update
+  apt-get install software-properties-common
+
+  add-apt-repository universe
+  add-apt-repository ppa:certbot/certbot
+
+  apt-get update
+  apt-get install -y \
+    git \
+    docker.io \
+    docker-compose \
+    certbot \
+    python-certbot-nginx
+}
+
+function setup_proxy {
+  report "Setting up proxy"
+
+  confpath=$HOME/code/dotfiles
+  ngnxpath=$confpath/cloud/api-server/nginx
+
+  git clone https://github.com/arkadyt/dotfiles.git $confpath
+
+  # set up SSL
+  certbot certonly --nginx
+
+  # setup nginx modules
+  rm /etc/nginx/sites-available/* -rf
+  rm /etc/nginx/sites-enabled/* -rf
+  cp $ngnxpath/sites-available /etc/nginx
+  ln -s /etc/nginx/sites-available/* /etc/nginx/sites-enabled
+
+  # main nginx conf
+  \cp -f $ngnxpath/nginx.conf /etc/nginx
+}
+
+function gen_app_keys {
+  app_secret=$(openssl rand -base64 36)
+  app_usernm=$(openssl rand -base64 8)
+  app_passwd=$(openssl rand -base64 16)
+
+  app_name=$1
+  app_port=$2
+
+  pathname=$HOME/apps/$app_name/.env
+
+  if [ -f pathname ]; then 
+    truncate -s 0 pathname
+  else
+    touch pathname
+  fi
+
+  echo "MONGO_URI=mongodb://$app_usernm:$app_passwd@db:27017/$app_name" >> pathname
+  echo "SECRET=$app_secret" >> pathname
+  echo "NODE_ENV=production" >> pathname
+  echo "PORT=$2" >> pathname
+}
+
+function install_app {
+  git clone https://github.com/arkadyt/$1.git $HOME/apps/$1
+  gen_app_keys $1 $2
+}
+
+function launch_app {
+  report "Launching app ($1)"
+
+  pathname=$HOME/apps/$1
+  install_app $1 $2
+  docker-compose up \
+    --project-directory pathname \
+    --detach
+}
+
+dl_software
+setup_proxy
+launch_app 'wework' 28000
+launch_app 'vspace' 28010
+
+report "Successfully initialized API server" true
