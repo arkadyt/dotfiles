@@ -41,17 +41,23 @@ function setup_proxy {
 
   git clone https://github.com/arkadyt/dotfiles.git $confpath
 
-  # set up SSL
-  certbot certonly --nginx
+  # set up SSL certs
+  certbot certonly \
+    --nginx \
+    --agree-tos \
+    --non-interactive \
+    -d api.arkadyt.com \
+    -m certbot7@arkadyt.com
 
-  # setup nginx modules
+  # set up nginx sites
   rm /etc/nginx/sites-available/* -rf
   rm /etc/nginx/sites-enabled/* -rf
-  cp $ngnxpath/sites-available /etc/nginx
+  cp -r $ngnxpath/sites-available /etc/nginx
   ln -s /etc/nginx/sites-available/* /etc/nginx/sites-enabled
 
-  # main nginx conf
+  # force-copy nginx.conf and restart service
   \cp -f $ngnxpath/nginx.conf /etc/nginx
+  nginx -s reload
 }
 
 function gen_app_keys {
@@ -87,7 +93,7 @@ function launch_app {
   pathname=$HOME/apps/$1
   install_app $1 $2
   docker-compose up \
-    --project-directory pathname \
+    --project-directory $pathname \
     --detach
 }
 
