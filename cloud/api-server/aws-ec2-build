@@ -22,8 +22,8 @@ function dl_software {
   apt-get install -y \
     software-properties-common
 
-  add-apt-repository universe
-  add-apt-repository ppa:certbot/certbot
+  add-apt-repository universe -y
+  add-apt-repository ppa:certbot/certbot -y
 
   apt-get update
   apt-get install -y \
@@ -37,9 +37,9 @@ function dl_software {
 function setup_proxy {
   report "Setting up proxy"
 
-  confpath=$HOME/code/dotfiles
-  ngnxpath=$confpath/cloud/api-server/nginx
-  osslpath=/etc/nginx/openssl
+  local confpath=$HOME/code/dotfiles
+  local ngnxpath=$confpath/cloud/api-server/nginx
+  local osslpath=/etc/nginx/openssl
 
   git clone https://github.com/arkadyt/dotfiles.git $confpath
 
@@ -72,14 +72,14 @@ function setup_proxy {
 }
 
 function gen_app_keys {
-  app_secret=$(openssl rand -base64 36)
-  app_usernm=$(openssl rand -base64 8)
-  app_passwd=$(openssl rand -base64 16)
+  local app_secret=$(openssl rand -base64 36)
+  local app_name=$1
+  local app_port=$2
 
-  app_name=$1
-  app_port=$2
+  local db_username=$(openssl rand -base64 8)
+  local db_password=$(openssl rand -base64 16)
 
-  pathname=$HOME/apps/$app_name/.env
+  local pathname=$HOME/apps/$app_name/.env
 
   if [ -f $pathname ]; then 
     truncate -s 0 $pathname
@@ -87,8 +87,10 @@ function gen_app_keys {
     touch $pathname
   fi
 
-  echo "MONGO_URI=mongodb://$app_usernm:$app_passwd@db:27017/$app_name" >> $pathname
   echo "SECRET=$app_secret" >> $pathname
+  echo "DB_USERNAME=$db_username" >> $pathname
+  echo "DB_PASSWORD=$db_password" >> $pathname
+  echo "MONGO_URI=mongodb://$db_username:$db_password@db:27017/$app_name" >> $pathname
   echo "NODE_ENV=production" >> $pathname
   echo "PORT=$2" >> $pathname
 }
@@ -101,7 +103,7 @@ function install_app {
 function launch_app {
   report "Launching app ($1)"
 
-  pathname=$HOME/apps/$1
+  local pathname=$HOME/apps/$1
   install_app $1 $2
 
   cd $pathname
