@@ -19,7 +19,8 @@ function dl_software {
   report "Downloading software"
 
   apt-get update
-  apt-get install software-properties-common
+  apt-get install -y \
+    software-properties-common
 
   add-apt-repository universe
   add-apt-repository ppa:certbot/certbot
@@ -38,6 +39,7 @@ function setup_proxy {
 
   confpath=$HOME/code/dotfiles
   ngnxpath=$confpath/cloud/api-server/nginx
+  osslpath=/etc/nginx/openssl
 
   git clone https://github.com/arkadyt/dotfiles.git $confpath
 
@@ -55,8 +57,17 @@ function setup_proxy {
   cp -r $ngnxpath/sites-available /etc/nginx
   ln -s /etc/nginx/sites-available/* /etc/nginx/sites-enabled
 
-  # force-copy nginx.conf and restart service
+  # force-copy nginx.conf
   \cp -f $ngnxpath/nginx.conf /etc/nginx
+
+  # generate self signed cert for default site (undefined)
+  mkdir -p $osslpath
+  openssl req \
+    -nodes -batch -new -x509 \
+    -keyout $osslpath/nginx.key \
+    -out $osslpath/nginx.crt
+
+  # reload nginx with new config
   nginx -s reload
 }
 
@@ -70,16 +81,16 @@ function gen_app_keys {
 
   pathname=$HOME/apps/$app_name/.env
 
-  if [ -f pathname ]; then 
-    truncate -s 0 pathname
+  if [ -f $pathname ]; then 
+    truncate -s 0 $pathname
   else
-    touch pathname
+    touch $pathname
   fi
 
-  echo "MONGO_URI=mongodb://$app_usernm:$app_passwd@db:27017/$app_name" >> pathname
-  echo "SECRET=$app_secret" >> pathname
-  echo "NODE_ENV=production" >> pathname
-  echo "PORT=$2" >> pathname
+  echo "MONGO_URI=mongodb://$app_usernm:$app_passwd@db:27017/$app_name" >> $pathname
+  echo "SECRET=$app_secret" >> $pathname
+  echo "NODE_ENV=production" >> $pathname
+  echo "PORT=$2" >> $pathname
 }
 
 function install_app {
@@ -92,9 +103,9 @@ function launch_app {
 
   pathname=$HOME/apps/$1
   install_app $1 $2
-  docker-compose up \
-    --project-directory $pathname \
-    --detach
+
+  cd $pathname
+  docker-compose up --detach
 }
 
 dl_software
