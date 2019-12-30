@@ -55,6 +55,7 @@ function setup_proxy {
   # set up SSL certs
   certbot certonly \
     --nginx \
+    --dry-run \
     --agree-tos \
     --non-interactive \
     -d api.arkadyt.com \
