@@ -141,9 +141,16 @@ function launch_app {
   docker-compose up -d
 }
 
-dl_software
-setup_proxy
-launch_app 'wework' 28000
-launch_app 'vspace' 28010
+function initialize_server {
+  dl_software
+  setup_proxy
+  launch_app 'wework' 28000
+  launch_app 'vspace' 28010
+
+  # reload nginx to use config with updated ports
+  nginx -s reload
+}
+
+initialize_server
 
 report "Successfully initialized API server" true
