@@ -47,7 +47,7 @@ function setup_proxy {
   report "Setting up proxy"
 
   local confpath=$HOME/code/dotfiles
-  local ngnxpath=$confpath/cloud/api-server/nginx
+  local ngnxpath=$confpath/cloud/api-servers/foss-other/nginx
   local osslpath=/etc/nginx/openssl
 
   git clone https://github.com/arkadyt/dotfiles.git $confpath
@@ -116,15 +116,26 @@ function gen_app_keys {
 }
 
 function install_app {
-  git clone https://github.com/arkadyt/$1.git $HOME/apps/$1
-  gen_app_keys $1 $2
+  local app_name=$1
+  local app_port=$2
+
+  # clone app and generate random secret keys, db pwd and username
+  git clone https://github.com/arkadyt/$app_name.git $HOME/apps/$app_name
+  gen_app_keys $app_name $app_port
+
+  # update ports in nginx config (search for location block and edit next line)
+  sed -Ei "/\/$app_name\//{n;s/[[:digit:]]+/$app_port/}" \
+    /etc/nginx/sites-available/api.arkadyt.com
 }
 
 function launch_app {
-  report "Launching app ($1)"
+  local app_name=$1
+  local app_port=$2
 
-  local pathname=$HOME/apps/$1
-  install_app $1 $2
+  report "Launching app ($app_name)"
+
+  local pathname=$HOME/apps/$app_name
+  install_app $app_name $app_port
 
   cd $pathname
   docker-compose up -d

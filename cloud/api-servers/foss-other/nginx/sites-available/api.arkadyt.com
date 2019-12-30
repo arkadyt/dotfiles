@@ -8,14 +8,12 @@ server {
     include               /etc/letsencrypt/options-ssl-nginx.conf; 
     ssl_dhparam           /etc/letsencrypt/ssl-dhparams.pem; 
 
-    location /wnetb/ {
+    location /wework/ {
         proxy_pass        http://0.0.0.0:5001/;
     }
-
-    location /hp/ {
+    location /vspace/ {
         proxy_pass        http://0.0.0.0:5003/;
     }
-
     location = / {
         return 404;
     }
