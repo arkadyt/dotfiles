@@ -114,7 +114,7 @@ function launch_app {
   install_app $1 $2
 
   cd $pathname
-  docker-compose up --detach
+  docker-compose up -d
 }
 
 dl_software
