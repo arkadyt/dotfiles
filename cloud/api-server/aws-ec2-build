@@ -81,8 +81,8 @@ function setup_proxy {
 }
 
 function write_to_file {
-  local pathname=$1
-  local contents=$2
+  local pathname=$1; shift
+  local contents=("$@")
 
   if [ -f $pathname ]; then 
     truncate -s 0 $pathname
@@ -90,31 +90,29 @@ function write_to_file {
     touch $pathname
   fi
 
-  for item in ${contents[@]}; do
-    echo $item >> $pathname
-  done
+  echo ${contents[@]} | sed "s/ /\n/g" > $pathname
 }
 
 function gen_app_keys {
   local app_name=$1
   local app_port=$2
-  local app_secret=$(openssl rand -base64 36)
-  local db_username=$(openssl rand -base64 8)
-  local db_password=$(openssl rand -base64 16)
+  local app__secret=s$(openssl rand -hex 36)
+  local db_username=u$(openssl rand -hex 8)
+  local db_password=p$(openssl rand -hex 16)
   local basedir=$HOME/apps/$app_name
 
   local contents=(
-    "SECRET=$app_secret",
-    "DB_USERNAME=$db_username",
-    "DB_PASSWORD=$db_password",
-    "MONGO_URI=mongodb://$db_username:$db_password@db:27017/$app_name",
-    "NODE_ENV=production",
+    "SECRET=$app__secret"
+    "DB_USERNAME=$db_username"
+    "DB_PASSWORD=$db_password"
+    "MONGO_URI=mongodb://$db_username:$db_password@db:27017/$app_name"
+    "NODE_ENV=production"
     "PORT=$2"
   )
 
   # for docker-compose and the app itself
-  write_to_file $basedir/.env $contents
-  write_to_file $basedir/server/.env $contents
+  write_to_file $basedir/.env ${contents[@]}
+  write_to_file $basedir/server/.env ${contents[@]}
 }
 
 function install_app {
