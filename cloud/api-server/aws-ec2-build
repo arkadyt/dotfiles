@@ -80,13 +80,9 @@ function setup_proxy {
   nginx -s reload
 }
 
-function gen_app_keys {
-  local app_secret=$(openssl rand -base64 36)
-  local app_name=$1
-  local app_port=$2
-  local db_username=$(openssl rand -base64 8)
-  local db_password=$(openssl rand -base64 16)
-  local pathname=$HOME/apps/$app_name/.env
+function write_to_file {
+  local pathname=$1
+  local contents=$2
 
   if [ -f $pathname ]; then 
     truncate -s 0 $pathname
@@ -94,12 +90,31 @@ function gen_app_keys {
     touch $pathname
   fi
 
-  echo "SECRET=$app_secret" >> $pathname
-  echo "DB_USERNAME=$db_username" >> $pathname
-  echo "DB_PASSWORD=$db_password" >> $pathname
-  echo "MONGO_URI=mongodb://$db_username:$db_password@db:27017/$app_name" >> $pathname
-  echo "NODE_ENV=production" >> $pathname
-  echo "PORT=$2" >> $pathname
+  for item in ${contents[@]}; do
+    echo $item >> $pathname
+  done
+}
+
+function gen_app_keys {
+  local app_name=$1
+  local app_port=$2
+  local app_secret=$(openssl rand -base64 36)
+  local db_username=$(openssl rand -base64 8)
+  local db_password=$(openssl rand -base64 16)
+  local basedir=$HOME/apps/$app_name
+
+  local contents=(
+    "SECRET=$app_secret",
+    "DB_USERNAME=$db_username",
+    "DB_PASSWORD=$db_password",
+    "MONGO_URI=mongodb://$db_username:$db_password@db:27017/$app_name",
+    "NODE_ENV=production",
+    "PORT=$2"
+  )
+
+  # for docker-compose and the app itself
+  write_to_file $basedir/.env $contents
+  write_to_file $basedir/server/.env $contents
 }
 
 function install_app {
