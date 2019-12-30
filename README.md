@@ -7,18 +7,17 @@
 │   │       ├── aws-ec2-build.sh
 │   │       ├── nginx
 │   │       │   ├── nginx.conf
-│   │       │   ├── sites-available
-│   │       │   │   ├── api.arkadyt.com
-│   │       │   │   ├── undefined
-│   │       │   │   └── wp-testing.arkadyt.com
-│   │       │   └── sites-enabled
+│   │       │   └── sites-available
+│   │       │       ├── api.arkadyt.com
+│   │       │       ├── undefined
+│   │       │       └── wp-testing.arkadyt.com
 │   │       ├── postfix
 │   │       │   └── main.cf
 │   │       ├── README.md
 │   │       ├── renew-ssl-certs
 │   │       └── root-crontab
 │   └── ioq3-servers
-│       ├── dante-proxy
+│       ├── dante-socks5-proxy
 │       │   ├── aws-ec2-build.sh
 │       │   ├── danted.conf
 │       │   ├── manual-dante-daemon.sh
@@ -30,15 +29,17 @@
 │           ├── rotation.txt
 │           ├── server.cfg
 │           └── xp_start.sh
-├── my-machine
-│   ├── kde
-│   │   ├── pager.svg
-│   │   ├── README.md
-│   │   └── system.shortcuts
-│   ├── nvim
-│   │   └── init.vim
-│   └── system-helpers
-│       ├── rsgit.sh
-│       └── rskdbx.sh
-└── README.md
+├── README.md
+└── workstation
+    ├── kde
+    │   ├── pager.svg
+    │   ├── README.md
+    │   ├── system.shortcuts
+    │   └── .xsessionrc
+    ├── nvim
+    │   ├── init.vim
+    │   └── .vimrc
+    └── system-helpers
+        ├── rsgit.sh
+        └── rskdbx.sh
 ```
