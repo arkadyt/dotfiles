@@ -3,6 +3,7 @@
 .
 ├── cloud
 │   ├── api-server
+│   │   ├── aws-ec2-build
 │   │   ├── dbrestore
 │   │   │   ├── restore-socnet-db
 │   │   │   └── socnet
@@ -37,20 +38,22 @@
 │       │   ├── danted.conf
 │       │   ├── manual-dante-daemon
 │       │   └── readme
+│       ├── readme
 │       └── xp-server
 │           ├── aws-ec2-build
 │           ├── rd3-rotation.txt
 │           ├── rotation.txt
 │           ├── server.cfg
 │           └── xp_start
-└── my-machine
-    ├── kde
-    │   ├── pager.svg
-    │   ├── README.md
-    │   └── system.shortcuts
-    ├── nvim
-    │   └── init.vim
-    └── system-helpers
-        ├── rsgit
-        └── rskdbx
+├── my-machine
+│   ├── kde
+│   │   ├── pager.svg
+│   │   ├── README.md
+│   │   └── system.shortcuts
+│   ├── nvim
+│   │   └── init.vim
+│   └── system-helpers
+│       ├── rsgit
+│       └── rskdbx
+└── README.md
 ```
