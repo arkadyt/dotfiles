@@ -1,9 +1,9 @@
 server {
     listen                443 ssl; 
-    server_name           api.arkadyt.com;
+    server_name           apis.arkadyt.com;
 
-    ssl_certificate       /etc/letsencrypt/live/api.arkadyt.com/fullchain.pem; 
-    ssl_certificate_key   /etc/letsencrypt/live/api.arkadyt.com/privkey.pem; 
+    ssl_certificate       /etc/letsencrypt/live/apis.arkadyt.com/fullchain.pem; 
+    ssl_certificate_key   /etc/letsencrypt/live/apis.arkadyt.com/privkey.pem; 
 
     include               /etc/letsencrypt/options-ssl-nginx.conf; 
     ssl_dhparam           /etc/letsencrypt/ssl-dhparams.pem; 
@@ -21,9 +21,9 @@ server {
 
 server {
     listen        80;
-    server_name   api.arkadyt.com;
+    server_name   apis.arkadyt.com;
 
-    if ($host = api.arkadyt.com) {
+    if ($host = apis.arkadyt.com) {
         return 301 https://$host$request_uri;
     } 
 }

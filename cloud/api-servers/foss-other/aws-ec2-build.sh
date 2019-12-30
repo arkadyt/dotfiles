@@ -4,7 +4,7 @@
 # configures SSL certificates, nginx reverse proxy and docker.
 # Then launches the applications.
 #
-# All APIs are reachable from api.arkadyt.com.
+# All APIs are reachable from apis.arkadyt.com.
 #
 # For more information look into nginx configuration here:
 #     github.com/arkadyt/dotfiles/cloud/nginx
@@ -58,7 +58,7 @@ function setup_proxy {
     --dry-run \
     --agree-tos \
     --non-interactive \
-    -d api.arkadyt.com \
+    -d apis.arkadyt.com \
     -m certbot7@arkadyt.com
 
   # set up nginx sites
@@ -126,7 +126,7 @@ function install_app {
 
   # update ports in nginx config (search for location block and edit next line)
   sed -Ei "/\/$app_name\/ \{/{n;s/[[:digit:]]{4}\//$app_port\//}" \
-    /etc/nginx/sites-available/api.arkadyt.com
+    /etc/nginx/sites-available/apis.arkadyt.com
 }
 
 function launch_app {
