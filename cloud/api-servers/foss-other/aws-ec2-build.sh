@@ -124,7 +124,7 @@ function install_app {
   gen_app_keys $app_name $app_port
 
   # update ports in nginx config (search for location block and edit next line)
-  sed -Ei "/\/$app_name\//{n;s/[[:digit:]]+/$app_port/}" \
+  sed -Ei "/\/$app_name\/ \{/{n;s/[[:digit:]]{4}\//$app_port\//}" \
     /etc/nginx/sites-available/api.arkadyt.com
 }
 
