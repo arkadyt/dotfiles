@@ -10,6 +10,7 @@
 #     github.com/arkadyt/dotfiles/cloud/nginx
 
 HOME=/home/ubuntu
+SRVCONFPATH=$HOME/code/dotfiles/cloud/api-servers/foss-other
 
 function report {
     # if final report message
@@ -104,8 +105,8 @@ function gen_app_keys {
 
   local contents=(
     "SECRET=$app__secret"
-    "DB_USERNAME=$db_username"
-    "DB_PASSWORD=$db_password"
+    "MONGO_INITDB_ROOT_USERNAME=$db_username"
+    "MONGO_INITDB_ROOT_PASSWORD=$db_password"
     "MONGO_URI=mongodb://$db_username:$db_password@db:27017/$app_name"
     "NODE_ENV=production"
     "PORT=$2"
@@ -145,11 +146,17 @@ function launch_app {
 function initialize_server {
   dl_software
   setup_proxy
+
   launch_app 'wework' 28000
   launch_app 'vspace' 28010
-
   # reload nginx to use config with updated ports
   nginx -s reload
+
+  # set up automatic cert renewals and database resets
+  crontab -u root $SRVCONFPATH/root-crontab
+  # run initial db restore with 10 sec lag to make sure
+  # db service is up by the time we run mongorestore
+  sleep 10 && sh $HOME/apps/wework/db/dbrestore.sh
 }
 
 initialize_server
