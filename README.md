@@ -1,20 +1,20 @@
-# Contents tree
+## Directory Tree
 ```
 .
 ├── cloud
 │   ├── api-servers
-│   │   └── foss-projects-backend
+│   │   └── foss-other
 │   │       ├── aws-ec2-build.sh
 │   │       ├── nginx
 │   │       │   ├── nginx.conf
 │   │       │   └── sites-available
-│   │       │       ├── api.arkadyt.com
+│   │       │       ├── apis.arkadyt.com
 │   │       │       ├── undefined
 │   │       │       └── wp-testing.arkadyt.com
 │   │       ├── postfix
 │   │       │   └── main.cf
 │   │       ├── README.md
-│   │       ├── renew-ssl-certs
+│   │       ├── renew-ssl-certs.sh
 │   │       └── root-crontab
 │   └── ioq3-servers
 │       ├── dante-socks5-proxy
@@ -31,6 +31,8 @@
 │           └── xp_start.sh
 ├── README.md
 └── workstation
+    ├── bash
+    │   └── .bashrc
     ├── kde
     │   ├── pager.svg
     │   ├── README.md
