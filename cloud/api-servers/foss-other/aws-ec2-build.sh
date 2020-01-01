@@ -35,6 +35,11 @@ function dl_software {
   add-apt-repository universe -y
   add-apt-repository ppa:certbot/certbot -y
 
+  # add mongo org repository
+  wget -qO - https://www.mongodb.org/static/pgp/server-4.2.asc | apt-key add -
+  echo "deb [ arch=amd64 ] https://repo.mongodb.org/apt/ubuntu bionic/mongodb-org/4.2 multiverse" \
+    | sudo tee /etc/apt/sources.list.d/mongodb-org-4.2.list
+
   apt-get update
   apt-get install -y \
     git \
@@ -42,7 +47,7 @@ function dl_software {
     docker-compose \
     certbot \
     python-certbot-nginx \
-    mongodb-server
+    mongodb-org-tools
 }
 
 function setup_proxy {
