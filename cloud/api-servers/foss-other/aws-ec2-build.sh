@@ -106,9 +106,10 @@ function gen_app_keys {
   local app__secret=s$(openssl rand -hex 36)
   local basedir=$HOME/apps/$app_name
 
+  # do not enable auth on db (protected by AWS VPC and iptables)
   local contents=(
     "SECRET=$app__secret"
-    "MONGO_URI=mongodb://localhost:27017/$app_name"
+    "MONGO_URI=mongodb://db:27017/$app_name"
     "NODE_ENV=production"
     "PORT=$2"
   )
