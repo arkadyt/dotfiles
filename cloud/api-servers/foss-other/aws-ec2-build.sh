@@ -41,7 +41,8 @@ function dl_software {
     docker.io \
     docker-compose \
     certbot \
-    python-certbot-nginx
+    python-certbot-nginx \
+    mongodb-server
 }
 
 function setup_proxy {
@@ -56,7 +57,6 @@ function setup_proxy {
   # set up SSL certs
   certbot certonly \
     --nginx \
-    --dry-run \
     --agree-tos \
     --non-interactive \
     -d apis.arkadyt.com \

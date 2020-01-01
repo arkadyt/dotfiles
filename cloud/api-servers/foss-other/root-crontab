@@ -19,5 +19,5 @@
 #-------------------------------------------------------------------------
   MAILTO=redacted@arkadyt.com
 
-  0  0  *  *  *  /home/ubuntu/apps/wework/db/dbrestore.sh
+0,29 *  *  *  *  /home/ubuntu/apps/wework/db/dbrestore.sh
   0  0  *  *  0  /home/ubuntu/code/dotfiles/cloud/api-servers/foss-other/renew-ssl-certs.sh
