@@ -99,22 +99,17 @@ function gen_app_keys {
   local app_name=$1
   local app_port=$2
   local app__secret=s$(openssl rand -hex 36)
-  local db_username=u$(openssl rand -hex 8)
-  local db_password=p$(openssl rand -hex 16)
   local basedir=$HOME/apps/$app_name
 
   local contents=(
     "SECRET=$app__secret"
-    "MONGO_INITDB_ROOT_USERNAME=$db_username"
-    "MONGO_INITDB_ROOT_PASSWORD=$db_password"
-    "MONGO_URI=mongodb://$db_username:$db_password@db:27017/$app_name"
+    "MONGO_URI=mongodb://localhost:27017/$app_name"
     "NODE_ENV=production"
     "PORT=$2"
   )
 
   # for docker-compose and the app itself
   write_to_file $basedir/.env ${contents[@]}
-  write_to_file $basedir/server/.env ${contents[@]}
 }
 
 function install_app {
