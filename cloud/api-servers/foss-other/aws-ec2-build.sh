@@ -17,8 +17,8 @@ SRVCONFPATH=$HOME/code/dotfiles/cloud/api-servers/foss-other
 # keys to "sed in" (include) during deployment:
 # s3 r/o access with s3:ListBucket and s3:getObject permissions
 # restricted to $S3_BUCKET ARN.
-AWS_KEY_ID=redacted
-AWS_SECRET=redacted
+AWS_KEY_ID=
+AWS_SECRET=
 AWS_REGION=us-west-1
 AWS_OUTPUT=json
 S3_BUCKET=cert.apis.arkadyt.com
@@ -100,11 +100,9 @@ function cleanup {
 
 function obtain_ssl_certs {
   report "Obtaining SSL certificates"
-  local reissue_cert=$1
-  local cert_storage=/etc/letsencrypt/archive
-  local cert_smlinks=/etc/letsencrypt/live
 
-  if reissue_cert; then
+  local reissue_cert=$1
+  if $reissue_cert; then
     certbot certonly \
       --nginx \
       --agree-tos \
@@ -113,10 +111,10 @@ function obtain_ssl_certs {
       -m certbot7@arkadyt.com
   else
     # otherwise fetch & install backup
-    mkdir -p $cert_smlinks
-    mkdir -p $cert_storage
-    aws s3 cp --recursive s3://$S3_BUCKET $cert_storage
-    ln -s $cert_storage/* $cert_smlinks
+    local fetchdir=$HOME/s3certbkp
+    mkdir -p $fetchdir
+    aws s3 cp --recursive s3://$S3_BUCKET $fetchdir
+    tar xvzf $fetchdir/certificates.tar.gz -C /
     certbot renew
   fi
 }
