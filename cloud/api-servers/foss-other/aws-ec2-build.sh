@@ -9,8 +9,20 @@
 # For more information look into nginx configuration here:
 #     github.com/arkadyt/dotfiles/cloud/nginx
 
+ROOT_USER=root
+ROOT_HOME=/$ROOT_USER
 HOME=/home/ubuntu
 SRVCONFPATH=$HOME/code/dotfiles/cloud/api-servers/foss-other
+
+# keys to "sed in" (include) during deployment:
+# s3 r/o access with s3:ListBucket and s3:getObject permissions
+# restricted to $S3_BUCKET ARN.
+AWS_KEY_ID=redacted
+AWS_SECRET=redacted
+AWS_REGION=us-west-1
+AWS_OUTPUT=json
+S3_BUCKET=cert.apis.arkadyt.com
+AWS_USER_DATA_PATH=/var/lib/cloud/instances/i-*
 
 function report {
     # if final report message
@@ -25,7 +37,26 @@ function report {
     fi
 }
 
-function dl_software {
+function config_aws {
+  report "Configuring AWS"
+
+  mkdir $ROOT_HOME/.aws
+  cd $ROOT_HOME/.aws
+
+  rm -f credentials config
+  touch credentials config
+  echo [default] | tee -a credentials config
+
+  # use tee/dd in case we need to use "sudo" in the future
+  echo region=$AWS_REGION | tee -a config
+  echo output=$AWS_OUTPUT | tee -a config
+
+  # append text with dd to avoid leaving keys in aws log files
+  echo aws_access_key_id=$AWS_KEY_ID     | dd of=credentials oflag=append conv=notrunc
+  echo aws_secret_access_key=$AWS_SECRET | dd of=credentials oflag=append conv=notrunc
+}
+
+function setup_software {
   report "Downloading software"
 
   apt-get update
@@ -47,7 +78,47 @@ function dl_software {
     docker-compose \
     certbot \
     python-certbot-nginx \
-    mongodb-org-tools
+    mongodb-org-tools \
+    awscli
+
+  config_aws
+}
+
+function cleanup {
+  report "Cleaning up"
+
+  # remove aws credentials after use for security reasons
+  rm -rf $ROOT_HOME/.aws
+
+  # remove the current script from the system as it contains the AWS credentials
+  rm -rf $AWS_USER_DATA_PATH/*user-data*
+  rm -rf $AWS_USER_DATA_PATH/scripts
+
+  # $0 is a path of the current script; not guaranteed to work on all systems
+  # rm -- "$0" 
+}
+
+function obtain_ssl_certs {
+  report "Obtaining SSL certificates"
+  local reissue_cert=$1
+  local cert_storage=/etc/letsencrypt/archive
+  local cert_smlinks=/etc/letsencrypt/live
+
+  if reissue_cert; then
+    certbot certonly \
+      --nginx \
+      --agree-tos \
+      --non-interactive \
+      -d apis.arkadyt.com \
+      -m certbot7@arkadyt.com
+  else
+    # otherwise fetch & install backup
+    mkdir -p $cert_smlinks
+    mkdir -p $cert_storage
+    aws s3 cp --recursive s3://$S3_BUCKET $cert_storage
+    ln -s $cert_storage/* $cert_smlinks
+    certbot renew
+  fi
 }
 
 function setup_proxy {
@@ -60,12 +131,7 @@ function setup_proxy {
   git clone https://github.com/arkadyt/dotfiles.git $confpath
 
   # set up SSL certs
-  certbot certonly \
-    --nginx \
-    --agree-tos \
-    --non-interactive \
-    -d apis.arkadyt.com \
-    -m certbot7@arkadyt.com
+  obtain_ssl_certs
 
   # set up nginx sites
   rm /etc/nginx/sites-available/* -rf
@@ -145,7 +211,7 @@ function launch_app {
 }
 
 function initialize_server {
-  dl_software
+  setup_software
   setup_proxy
 
   # set up automatic cert renewals and database resets
@@ -160,6 +226,8 @@ function initialize_server {
 
   # reload nginx to use config with updated ports
   nginx -s reload
+  # wipe the script from EC2 vm for security reasons
+  cleanup
 }
 
 initialize_server
