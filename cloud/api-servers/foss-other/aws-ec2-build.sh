@@ -147,16 +147,18 @@ function initialize_server {
   dl_software
   setup_proxy
 
-  launch_app 'wework' 28000
-  launch_app 'vspace' 28010
-  # reload nginx to use config with updated ports
-  nginx -s reload
-
   # set up automatic cert renewals and database resets
   crontab -u root $SRVCONFPATH/root-crontab
+
+  launch_app 'wework' 28000
   # run initial db restore with 10 sec lag to make sure
   # db service is up by the time we run mongorestore
   sleep 10 && sh $HOME/apps/wework/db/dbrestore.sh
+
+  launch_app 'vspace' 28010
+
+  # reload nginx to use config with updated ports
+  nginx -s reload
 }
 
 initialize_server
