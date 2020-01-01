@@ -5,31 +5,32 @@
 #     run-parts /etc/cron.*
 
 LOCAL_REPORTS_DIR=/home/ubuntu/cron.reports
-EMAIL='redacted@arkadyt.com'
+RECIPIENT='redacted@arkadyt.com'
 
 export TZ='America/Los_Angeles'
 mkdir -p $LOCAL_REPORTS_DIR
 
 function write_to_file {
   local pathname=$1; shift
-  local contents=("$@")
 
-  if [ -f $pathname ]; then 
+  if [ -f $pathname ]; then
     truncate -s 0 $pathname
   else
     touch $pathname
   fi
 
-  echo ${contents[@]} | sed "s/ /\n/g" > $pathname
+  for line in "$@"; do
+    echo $line >> $pathname
+  done
 }
 
 function compose_message {
   local date_exact=$(date +'%B %d, %Y | %H:%M:%S (%z)')
   local report=$(certbot renew -n \
-           --pre-hook  "service nginx stop" \
-           --post-hook "service nginx start" )
+        --pre-hook  "service nginx stop" \
+        --post-hook "service nginx start")
 
-  local message=(
+  content_arr=(
     "Timestamp: $date_exact"
     "Cmd: certbot renew (w/ nginx restart)"
     "Server: $(hostname -f)"
@@ -37,25 +38,28 @@ function compose_message {
     "-----------"
     "$report"
   )
-
-  return $message
 }
 
 function save_local_copy {
   local filename="$LOCAL_REPORTS_DIR/cert_renewal_report_$(date +'%Y%m%d_%H%M%S').txt"
-  write_to_file $filename $1
+  write_to_file $filename "${content_arr[@]}"
+  local_copy_path=$filename
 }
 
 function send_email {
   local date=$(date +'%B %d, %Y')
   local header="Weekly cert update report ($date)"
-  echo "" | mail -s "$header" -A $1 $EMAIL
+  echo "" | mail -s "$header" -A $local_copy_path $RECIPIENT
 }
 
 function renew_certs {
-  compose_message; content_arr=$?
-  save_local_copy $content_arr
-  # send_email $content_arr
+  local content_arr
+  local local_copy_path
+
+  compose_message
+  save_local_copy
+  send_email
 }
 
 renew_certs
+
