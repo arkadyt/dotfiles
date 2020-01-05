@@ -19,11 +19,16 @@ alias gdd="git add $*"
 alias gcm="git commit $*"
 alias gpl="git pull $*"
 alias gph="git push $*"
+alias gdi="git diff $*"
+
+alias py3="python3.6 $*"
+alias py2="python2.7 $*"
 
 # java classpaths
-CLASSPATH="/home/arkadyt/Documents/Projects/algosprep/:/home/arkadyt/Documents/Projects/"
-
-# system helpers
+export CLASSPATH="$HOME/code:$CLASSPATH"
+# python module lookup path
+export PYTHONPATH="$HOME/code:$PYTHONPATH"
+# custom system helpers
 PATH="$HOME/Scripts:$PATH"
 
 # fuzzy finder

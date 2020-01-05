@@ -117,6 +117,15 @@ endif						" Requires rg binary installed on os
 
 
 
+""""""""""""""""""""""""""""""
+" Shougo/deoplete.vim
+"
+"""""""""""""""""""""""""""""""
+let g:deoplete#min_pattern_length = 3
+let g:deoplete#auto_complete_delay = 1000
+
+
+
 """""""""""""""""""""""""""""""
 " Look & Feel
 "
@@ -148,5 +157,9 @@ set clipboard+=unnamed                          " Connect to system's clipboard
 
                                                 " Always show SignColumn for
                                                 " regular files 
+
+set list
+set listchars=tab:>-,eol:$,trail:~,extends:>,precedes:<,space:.
+
 autocmd BufRead,BufNewFile *     setlocal signcolumn=yes
 autocmd FileType tagbar,nerdtree setlocal signcolumn=no
