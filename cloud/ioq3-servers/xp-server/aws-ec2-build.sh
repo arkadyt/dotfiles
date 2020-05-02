@@ -24,9 +24,7 @@ ROOT_USER=root
 ROOT_HOME=/$ROOT_USER
 Q3_USER=ioq3
 Q3_HOME=/home/$Q3_USER
-AWS_KEY_ID=redacted
-AWS_SECRET=redacted
-AWS_REGION=us-west-1
+AWS_REGION=us-east-1
 AWS_OUTPUT=json
 S3_BUCKET=ioq3ded
 AWS_USER_DATA_PATH=/var/lib/cloud/instances/i-*
@@ -70,10 +68,6 @@ function config_aws {
     # use tee/dd in case we need to use "sudo" in the future
     echo region=$AWS_REGION | tee -a config
     echo output=$AWS_OUTPUT | tee -a config
-
-    # append text with dd to avoid leaving keys in aws log files
-    echo aws_access_key_id=$AWS_KEY_ID     | dd of=credentials oflag=append conv=notrunc
-    echo aws_secret_access_key=$AWS_SECRET | dd of=credentials oflag=append conv=notrunc
 }
 
 function dl_game_content {
