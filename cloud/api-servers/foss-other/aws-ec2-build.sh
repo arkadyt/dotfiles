@@ -4,25 +4,17 @@
 # configures SSL certificates, nginx reverse proxy and docker.
 # Then launches the applications.
 #
-# All APIs are reachable from apis.arkadyt.com.
-#
-# For more information look into nginx configuration here:
-#     github.com/arkadyt/dotfiles/cloud/nginx
+# All APIs are reachable from apis.arkadyt.com/*
 
 ROOT_USER=root
 ROOT_HOME=/$ROOT_USER
+
 HOME=/home/ubuntu
 SRVCONFPATH=$HOME/code/dotfiles/cloud/api-servers/foss-other
+CERT_BUCKET=cert.apis.arkadyt.com
 
-# keys to "sed in" (include) during deployment:
-# s3 r/o access with s3:ListBucket and s3:getObject permissions
-# restricted to $S3_BUCKET ARN.
-AWS_KEY_ID=redacted
-AWS_SECRET=redacted
 AWS_REGION=us-west-1
 AWS_OUTPUT=json
-S3_BUCKET=cert.apis.arkadyt.com
-AWS_USER_DATA_PATH=/var/lib/cloud/instances/i-*
 
 function report {
     # if final report message
@@ -40,20 +32,9 @@ function report {
 function config_aws {
   report "Configuring AWS"
 
-  mkdir $ROOT_HOME/.aws
-  cd $ROOT_HOME/.aws
-
-  rm -f credentials config
-  touch credentials config
-  echo [default] | tee -a credentials config
-
-  # use tee/dd in case we need to use "sudo" in the future
-  echo region=$AWS_REGION | tee -a config
-  echo output=$AWS_OUTPUT | tee -a config
-
-  # append text with dd to avoid leaving keys in aws log files
-  echo aws_access_key_id=$AWS_KEY_ID     | dd of=credentials oflag=append conv=notrunc
-  echo aws_secret_access_key=$AWS_SECRET | dd of=credentials oflag=append conv=notrunc
+  # will configure default profile
+  aws configure set region $AWS_REGION
+  aws configure set output $AWS_OUTPUT
 }
 
 function setup_software {
@@ -84,20 +65,6 @@ function setup_software {
   config_aws
 }
 
-function cleanup {
-  report "Cleaning up"
-
-  # remove aws credentials after use for security reasons
-  rm -rf $ROOT_HOME/.aws
-
-  # remove the current script from the system as it contains the AWS credentials
-  rm -rf $AWS_USER_DATA_PATH/*user-data*
-  rm -rf $AWS_USER_DATA_PATH/scripts
-
-  # $0 is a path of the current script; not guaranteed to work on all systems
-  # rm -- "$0" 
-}
-
 function obtain_ssl_certs {
   report "Obtaining SSL certificates"
 
@@ -112,7 +79,7 @@ function obtain_ssl_certs {
     # otherwise fetch & install backup
     local fetchdir=$HOME/s3certbkp
     mkdir -p $fetchdir
-    aws s3 cp --recursive s3://$S3_BUCKET $fetchdir
+    aws s3 cp --recursive s3://$CERT_BUCKET $fetchdir
     tar xvzf $fetchdir/certificates.tar.gz -C /
     certbot renew
   fi
@@ -166,18 +133,19 @@ function write_to_file {
 function gen_app_keys {
   local app_name=$1
   local app_port=$2
-  local app__secret=s$(openssl rand -hex 36)
+  local app_secret=s$(openssl rand -hex 36)
   local basedir=$HOME/apps/$app_name
 
-  # do not enable auth on db (protected by AWS VPC and iptables)
+  # do not enable auth on db; it runs on the same machine and isn't exposed to internet
+  # this makes protected VPC subnet, OS firewall and periodic data resets more than sufficient
+  # if anyone breaks into the EC2 instance we'll have much bigger problems
   local contents=(
-    "SECRET=$app__secret"
+    "SECRET=$app_secret"
     "MONGO_URI=mongodb://db:27017/$app_name"
     "NODE_ENV=production"
     "PORT=$2"
   )
 
-  # for docker-compose and the app itself
   write_to_file $basedir/.env ${contents[@]}
 }
 
@@ -185,7 +153,7 @@ function install_app {
   local app_name=$1
   local app_port=$2
 
-  # clone app and generate random secret keys, db pwd and username
+  # clone app and generate .env file
   git clone https://github.com/arkadyt/$app_name.git $HOME/apps/$app_name
   gen_app_keys $app_name $app_port
 
@@ -223,8 +191,6 @@ function initialize_server {
 
   # reload nginx to use config with updated ports
   nginx -s reload
-  # wipe the script from EC2 vm for security reasons
-  cleanup
 }
 
 initialize_server
