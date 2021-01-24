@@ -10,13 +10,13 @@ endif
 
 let mapleader = ","
 
-tnoremap <Esc> <C-\><C-n>			        " Easily leave embedded terminal
+tnoremap <Esc> <C-\><C-n>			        									" Easily leave embedded terminal
 nnoremap <End> <S-A>|                                   " End with Insert mode
 
-nnoremap <Leader>F :FZF|                             	" :FZF shortcut
-nnoremap <Leader>f :FZF<CR>|                            " Quickly open fuzzy finder
+nnoremap <Leader>F :FZF|                             		" :FZF shortcut
+nnoremap <Leader>f :FZF<CR>|														" Quickly open fuzzy finder
 
-nnoremap <Leader>d :ALEFix<CR>			        " Run ESLint fixer
+nnoremap <Leader>d :ALEFix<CR>													" Run ESLint fixer
 nnoremap <Leader>c :tabe ~/.config/nvim/init.vim<CR>    " Edit nvimrc
 nnoremap <Leader>n :NERDTreeToggle<CR>                  " Toggle nerd tree
 

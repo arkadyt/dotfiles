@@ -20,3 +20,5 @@ alias gch="git checkout $*"
 
 alias py3="python3.6 $*"
 alias py2="python2.7 $*"
+
+alias vi="nvim $*"
