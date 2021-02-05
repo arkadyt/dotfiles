@@ -10,13 +10,13 @@ endif
 
 let mapleader = ","
 
-tnoremap <Esc> <C-\><C-n>			        									" Easily leave embedded terminal
+tnoremap <Esc> <C-\><C-n>                               " Easily leave embedded terminal
 nnoremap <End> <S-A>|                                   " End with Insert mode
 
-nnoremap <Leader>F :FZF|                             		" :FZF shortcut
-nnoremap <Leader>f :FZF<CR>|														" Quickly open fuzzy finder
+nnoremap <Leader>F :FZF|                                " :FZF shortcut
+nnoremap <Leader>f :FZF<CR>|                            " Quickly open fuzzy finder
 
-nnoremap <Leader>d :ALEFix<CR>													" Run ESLint fixer
+nnoremap <Leader>d :ALEFix<CR>                          " Run ESLint fixer
 nnoremap <Leader>c :tabe ~/.config/nvim/init.vim<CR>    " Edit nvimrc
 nnoremap <Leader>n :NERDTreeToggle<CR>                  " Toggle nerd tree
 
@@ -38,17 +38,17 @@ nnoremap <Leader>x :x<CR>                               " Save & Exit
 call plug#begin('~/.local/share/nvim/plugged')
 
 Plug 'tpope/vim-fugitive'                       " Git wrapper
-Plug 'w0rp/ale'					" Asynchronous Linting Engine
+Plug 'w0rp/ale'                                 " Asynchronous Linting Engine
                                                 " Deoplete autocompletion framework:
-Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }			
-Plug 'carlitux/deoplete-ternjs' 		" JS autocomplete plugin for Deoplete
-						" \ Requires ternjs installed
-						" \ globally (npm i -g tern).
-						" \ You can use Plug's post
-						" \ install hook, unless global npm
-						" \ installs require su rights on your
-						" \ machine:
-						" \ { 'do': 'npm i -g tern' }.
+Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+Plug 'carlitux/deoplete-ternjs'                 " JS autocomplete plugin for Deoplete
+                                                " \ Requires ternjs installed
+                                                " \ globally (npm i -g tern).
+                                                " \ You can use Plug's post
+                                                " \ install hook, unless global npm
+                                                " \ installs require su rights on your
+                                                " \ machine:
+                                                " \ { 'do': 'npm i -g tern' }.
                                                 " \ Also make sure to :checkhealth
                                                 " \ for troubleshooting info.
 Plug 'vim-airline/vim-airline'                  " Pretty status line
@@ -82,7 +82,7 @@ endif
 "
 """""""""""""""""""""""""""""""
                                                 " Configure Ale fixers: 
-let g:ale_fixers = {                            
+let g:ale_fixers = {
   \ 'javascript': ['eslint']
   \ }
 let g:ale_sign_error = '>>'
@@ -111,9 +111,9 @@ let g:gitgutter_map_keys = 0                    " Do not set up mappings
 " ctrlpvim/ctrlp.vim
 "
 """""""""""""""""""""""""""""""
-if executable('rg')				" Use ripgrep for search in files
+if executable('rg')                             " Use ripgrep for search in files
   let g:ctrlp_user_command = 'rg %s --files --hidden --color=never --glob ""'
-endif						" Requires rg binary installed on os
+endif                                           " Requires rg binary installed on os
 
 
 
@@ -131,7 +131,7 @@ let g:deoplete#auto_complete_delay = 1000
 "
 """""""""""""""""""""""""""""""
 let g:airline_theme='onedark'                   " Set airline theme [, gruvbox]
-let g:deoplete#enable_at_startup = 1		" Enable Deoplete autocompletion framework
+let g:deoplete#enable_at_startup = 1            " Enable Deoplete autocompletion framework
 
 syntax on                                       " Enable syntax highlighting
 colorscheme onedark                             " Set colorscheme
@@ -142,7 +142,7 @@ colorscheme onedark                             " Set colorscheme
 " Other settings
 "
 """""""""""""""""""""""""""""""
-set number relativenumber       		" Enable line numbers
+set number relativenumber                       " Enable line numbers
 set expandtab                                   " Expand tab to spaces
 set shiftwidth=4                                " Set 4 space chars per tab
 set noshowmode                                  " Disable -- INSERT -- line
