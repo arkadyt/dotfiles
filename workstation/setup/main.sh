@@ -3,7 +3,7 @@
 # Expects dotfiles repo to be located at $HOME/code/dotfiles
 #
 
-sudo apt install -y tree neovim git htop
+sudo apt install -y tree neovim git htop curl
 
 # install bash aliases link
 SOURCE=$HOME/code/dotfiles/workstation/bash/.bash_aliases
