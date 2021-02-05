@@ -30,10 +30,13 @@
 │           ├── rotation.txt
 │           ├── server.cfg
 │           └── xp_start.sh
+├── LICENSE
 ├── README.md
 └── workstation
     ├── bash
-    │   └── .bashrc
+    │   ├── .bash_aliases
+    │   ├── .bashrc
+    │   └── .profile
     ├── kde
     │   ├── pager.svg
     │   ├── README.md
@@ -42,6 +45,8 @@
     ├── nvim
     │   ├── init.vim
     │   └── .vimrc
+    ├── setup
+    │   └── main.sh
     └── system-helpers
         ├── rsgit.sh
         └── rskdbx.sh
