@@ -1,6 +1,6 @@
 " ------ Install Plug ------------ "
-if empty(glob('~/.local/share/nvim/site/autoload/plug.vim'))
-  silent !curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+if empty(glob('~/.config/nvim/autoload/plug.vim'))
+  silent !curl -fLo ~/.config/nvim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
   autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
 endif
 
@@ -144,7 +144,7 @@ colorscheme onedark                             " Set colorscheme
 """""""""""""""""""""""""""""""
 set number relativenumber       		" Enable line numbers
 set expandtab                                   " Expand tab to spaces
-set shiftwidth=2                                " Set 2 space chars per tab
+set shiftwidth=4                                " Set 4 space chars per tab
 set noshowmode                                  " Disable -- INSERT -- line
 set updatetime=100                              " Vim's update time, for better vim-gitgutter support
 set splitright                                  " Open vertical split right of current window
