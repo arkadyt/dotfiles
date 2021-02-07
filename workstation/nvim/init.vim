@@ -8,7 +8,7 @@ endif
 
 " ------ Set Mappings ------ "
 
-let mapleader = ","
+let mapleader = " "
 
 tnoremap <Esc> <C-\><C-n>                               " Easily leave embedded terminal
 nnoremap <End> <S-A>|                                   " End with Insert mode
