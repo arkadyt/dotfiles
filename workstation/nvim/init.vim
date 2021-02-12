@@ -122,7 +122,7 @@ endif                                           " Requires rg binary installed o
 "
 """""""""""""""""""""""""""""""
 let g:deoplete#min_pattern_length = 3
-let g:deoplete#auto_complete_delay = 1000
+call deoplete#custom#option('auto_complete_delay', 1000)
 
 
 
