@@ -40,16 +40,26 @@
     ├── kde
     │   ├── pager.svg
     │   ├── README.md
-    │   ├── system.shortcuts
-    │   └── .xsessionrc
+    │   └── system.shortcuts
+    ├── kinesis
+    │   └── active
+    │       ├── do_not_edit.txt
+    │       ├── dvorak.txt
+    │       ├── qwerty.txt
+    │       ├── state.txt
+    │       ├── v_dvorak.txt
+    │       └── version.txt
     ├── nvim
     │   ├── init.vim
     │   └── .vimrc
+    ├── scripts
+    │   ├── rsgit.sh
+    │   └── rskdbx.sh
     ├── setup
     │   └── main.sh
-    └── system-helpers
-        ├── rsgit.sh
-        └── rskdbx.sh
+    └── xorg
+        ├── xorg.conf.new
+        └── .xsessionrc
 ```
 
 ## License
