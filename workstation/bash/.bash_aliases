@@ -18,7 +18,7 @@ alias gps="git push $*"
 alias gdi="git diff $*"
 alias gch="git checkout $*"
 
-alias py3="python3.6 $*"
-alias py2="python2.7 $*"
+alias py3="python3 $*"
+alias py2="python2 $*"
 
 alias vi="nvim $*"
