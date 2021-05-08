@@ -1,4 +1,4 @@
-[caps]>[rwin]
+[caps]>[lwin]
 [lctrl]>[delete]
 [rwin]>[rctrl]
 [rctrl]>[caps]
