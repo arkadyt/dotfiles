@@ -1,4 +1,8 @@
-alias ll='ls -alF'
+alias grep='grep --color=auto'
+alias fgrep='fgrep --color=auto'
+alias egrep='egrep --color=auto'
+
+alias ll='ls -alF -G'
 alias la='ls -A'
 alias l='ls -CF'
 
@@ -8,17 +12,17 @@ alias dkrm-es="docker ps -aq --filter=status=stopped --filter=status=exited | xa
 alias dkrm-a="docker ps -aq | xargs -I % docker rm -f %"
 alias dkirm-a="docker image ls -aq | xargs -I {} docker image rm -f {}"
 
-alias gst="git status $*"
-alias gog="git log --oneline -10 $*"
-alias gel="git log --oneline --graph -25 $*"
-alias gdd="git add $*"
-alias gcm="git commit $*"
-alias gpl="git pull $*"
-alias gps="git push $*"
-alias gdi="git diff $*"
-alias gch="git checkout $*"
+alias gst="git status $@"
+alias gog="git log --oneline -10 $@"
+alias gel="git log --oneline --graph -25 $@"
+alias gdd="git add $@"
+alias gcm="git commit $@"
+alias gpl="git pull $@"
+alias gps="git push $@"
+alias gdi="git diff $@"
+alias gch="git checkout $@"
 
-alias py3="python3 $*"
-alias py2="python2 $*"
+alias py3="python3 $@"
+alias py2="python2 $@"
 
-alias vi="nvim $*"
+alias vi="nvim $@"
