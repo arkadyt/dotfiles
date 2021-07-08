@@ -12,9 +12,10 @@ alias dkrm-es="docker ps -aq --filter=status=stopped --filter=status=exited | xa
 alias dkrm-a="docker ps -aq | xargs -I % docker rm -f %"
 alias dkirm-a="docker image ls -aq | xargs -I {} docker image rm -f {}"
 
+alias gbr="git branch $@"
 alias gst="git status $@"
 alias gog="git log --oneline -10 $@"
-alias gel="git log --oneline --graph -25 $@"
+alias glg="git log --oneline --graph -35 $@"
 alias gdd="git add $@"
 alias gcm="git commit $@"
 alias gpl="git pull $@"
